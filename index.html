@@ -9,7 +9,7 @@ function fit(){ if(busy) return; busy=true; m.content=base;
     if (coarse && w>h && h<600) m.content='width='+Math.round(720*w/h)+', viewport-fit=cover';
     setTimeout(function(){ busy=false; dispatchEvent(new Event('resize')); },120); }); }
 fit(); addEventListener('orientationchange',function(){ setTimeout(fit,250); });})();</script>
-<title>Thornhold</title>
+<title>Thornshold</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Alegreya+Sans:wght@500;700;800&display=swap" rel="stylesheet">
@@ -964,7 +964,7 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 
 <section id="menu" class="screen on" data-theme="king">
   <div class="stage" id="stage"></div>
-  <div class="ltitle"><h1 class="logo">Thornhold</h1></div>
+  <div class="ltitle"><h1 class="logo">Thornshold</h1></div>
   <div class="duel" id="duel"></div>
   <button class="lockbtn" id="lockBtn" aria-label="Options"><svg viewBox="0 0 24 24"><path d="M7 11 V8 a5 5 0 0 1 10 0 V11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><rect x="5" y="11" width="14" height="10" rx="2.5" fill="currentColor"/></svg></button>
   <div class="lockpop" id="lockPop"><button class="btn" id="unlockBtn">Unlock everything</button><button class="btn" id="resetBtn">Reset progress</button></div>
