@@ -943,6 +943,19 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 .tok.spent{filter:saturate(.55) brightness(.72) drop-shadow(0 0 1.5px #d0702a) drop-shadow(0 0 1.5px #d0702a) drop-shadow(0 6px 7px rgba(0,0,0,.55))}
 .tok.sel{filter:drop-shadow(0 0 12px #fff3c9) drop-shadow(0 0 5px #f6d494)}
 .tok.ally{filter:drop-shadow(0 0 7px rgba(246,212,148,.95)) drop-shadow(0 6px 7px rgba(0,0,0,.55))}
+/* ---------- phone hand: bigger cards, kept on screen, clear of the leader ---------- */
+@media (max-width:800px){
+  :root{--card-w:clamp(74px,22vw,92px);--card-h:calc(var(--card-w)*1.593);--peek:calc(var(--card-h)*.6)}
+  .hc{transform:translateY(calc(var(--card-h)*.4 + var(--y,0px))) rotate(var(--r,0deg))}
+  .hc.sel{transform:translateY(calc(var(--card-h)*-.04)) rotate(0deg) scale(1.25)}
+  #pLeader{bottom:calc(var(--peek) + 4px)}
+  .boards{bottom:calc(var(--peek) + var(--por-h) + 58px)}
+  .endwrap{bottom:calc(var(--peek) + var(--por-h) + 10px)}
+  .apbar{bottom:calc(var(--peek) + 14px)}
+}
+/* shake a hand card without dropping its resting transform */
+.hc.shake{animation:hshk .35s}
+@keyframes hshk{20%{translate:-5px 0}40%{translate:5px 0}60%{translate:-3px 0}80%{translate:3px 0}}
 </style>
 </head>
 <body>
@@ -1985,11 +1998,16 @@ function render(){
     $('#'+s+'Board').innerHTML=h;
   }
   const hn=P.hand.length;
-  const cw=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-w'))||118;
-  const avail = innerWidth<=800 ? innerWidth-12 : innerWidth-460;
-  let ov = Math.min(-0.17*cw, (avail - hn*cw)/(2*Math.max(1,hn)));
+  const phone = innerWidth<=800, hh=$('#hand').offsetHeight;
+  const cw = hh ? hh/1.593 : (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--card-w'))||118);
+  const edge = Math.max(.5,(hn-1)/2);   // offset of the outermost card
+  const rot = phone ? Math.min(4, 6/edge) : Math.min(4, 26/Math.max(1,hn));
+  // on phones the fan pivots below the cards, so the outer cards swing sideways: leave room for that
+  const swing = phone ? Math.sin(edge*rot*Math.PI/180)*cw*1.593*.9 + 4 : 0;
+  const avail = phone ? innerWidth-12-2*swing : innerWidth-460;
+  let ov = Math.min(-0.17*cw, (avail - hn*cw)/(2*Math.max(1, phone ? hn-1 : hn)));
   ov = Math.max(ov, -0.40*cw);
-  const rot = Math.min(4, 26/Math.max(1,hn)), yk = hn<=6 ? 3 : 3*36/(hn*hn);
+  const yk = phone ? Math.min(3, 7/(edge*edge)) : hn<=6 ? 3 : 3*36/(hn*hn);
   $('#hand').style.setProperty('--ov', ov+'px');
   $('#hand').innerHTML = P.hand.map((card,hi)=>{
     let cls='hc';
