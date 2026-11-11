@@ -929,6 +929,14 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 .nhero.ng .n-hp,.nhero.nb .n-hp,.nhero.nu .n-hp{margin-left:-12cqw}
 .nhero .n-hl{position:absolute;left:65cqw;bottom:4.2cqh;font:600 4.4cqw system-ui,sans-serif;opacity:.75;white-space:nowrap}
 .nhero.nh .n-hl{color:#5a3512}.nhero.ng .n-hl{color:#dff0e6}.nhero.nb .n-hl{color:#f2e2c4}.nhero.nu .n-hl{color:#e6dcf5}
+
+#hand .hc::after{content:'';position:absolute;left:0;right:0;top:99%;height:75%}
+
+.tok.ready{filter:drop-shadow(0 0 1.5px #7df08a) drop-shadow(0 0 1.5px #7df08a) drop-shadow(0 0 8px rgba(96,224,112,.9)) drop-shadow(0 6px 7px rgba(0,0,0,.55))}
+.tok.wait{filter:saturate(.75) brightness(.9) drop-shadow(0 0 1.5px #aab6c6) drop-shadow(0 0 1.5px #aab6c6) drop-shadow(0 6px 7px rgba(0,0,0,.55))}
+.tok.spent{filter:saturate(.55) brightness(.72) drop-shadow(0 0 1.5px #d0702a) drop-shadow(0 0 1.5px #d0702a) drop-shadow(0 6px 7px rgba(0,0,0,.55))}
+.tok.sel{filter:drop-shadow(0 0 12px #fff3c9) drop-shadow(0 0 5px #f6d494)}
+.tok.ally{filter:drop-shadow(0 0 7px rgba(246,212,148,.95)) drop-shadow(0 6px 7px rgba(0,0,0,.55))}
 </style>
 </head>
 <body>
@@ -1928,6 +1936,7 @@ function tokenHTML(s,i){
   const sleepy = u.sick && !c.charge && st.active===s;
   if (sleepy) cls+=' sick';
   if (s==='p' && myTurn() && Q.canAttack(st,'p',i)) cls+=' ready';
+  else if (s==='p' && myTurn() && !st.winner){ cls += u.attacked ? ' spent' : ' wait'; }
   if (sel && sel.type==='unit' && s==='p' && sel.slot===i) cls+=' sel';
   if (sel && sel.type==='unit' && s==='e' && Q.canTargetUnit(st,'p',i)) cls+=' target';
   if (sel && (sel.type==='hand' || sel.type==='onplay')){
