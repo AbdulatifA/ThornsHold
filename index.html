@@ -3,6 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){var m=document.querySelector('meta[name=viewport]'),base=m.content,busy=false;
+function fit(){ if(busy) return; busy=true; m.content=base;
+  requestAnimationFrame(function(){ var w=innerWidth,h=innerHeight, coarse=matchMedia('(pointer:coarse)').matches;
+    if (coarse && w>h && h<600) m.content='width='+Math.round(720*w/h)+', viewport-fit=cover';
+    setTimeout(function(){ busy=false; dispatchEvent(new Event('resize')); },120); }); }
+fit(); addEventListener('orientationchange',function(){ setTimeout(fit,250); });})();</script>
 <title>Thornhold</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
